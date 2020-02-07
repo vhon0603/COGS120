@@ -22,12 +22,27 @@
 
 		<div class="navigation">
 			<div class="addplace">
-				<img width=50px height=50px src="css/assets/marker.svg"></img>
+				<input type="image" src="css/assets/marker.svg" img width=50px height=50px
+						name="locationBtn" id="addLocation" class="locationBtn"></img>
 			</div>
+
 			<div class="settings">
-				<img width=50px height=50px src="css/assets/settings-gear.svg"></img>
+				<input type="image" src="css/assets/settings-gear.svg" img width=50px height=50px
+						name="settingsBtn" id="goSettings" class="settingsBtn"></img>
 			</div>
+
+			<div class="friends">
+				<input type="image" src="css/assets/friends.svg" img width=50px height=50px
+						name="friendsBtn" id="addFriends" class="friendsBtn"
+						href="settings.handlebars" onclick="goToPage(this.href);return false">
+			</div>
+
 		</div>
 	</div>
+
 </body>
-</html>
+
+
+<a href="settings.handlebars"
+	onclick="basicPopup(this.href);return false">Open a popup window</a>
+</a>
