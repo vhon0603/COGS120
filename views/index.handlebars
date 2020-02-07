@@ -6,6 +6,9 @@
 
 	<script src="js/jquery-1.11.0.js"></script>
 	<script src="js/bootstrap.js"></script>
+	<script src="js/myodyssey.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCi2k2bysV7neHGNcdGc6cLsTGPmwX0gQg&callback=initMap"
+    async defer></script>
 
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/bootstrap-theme.css" rel="stylesheet">
@@ -14,11 +17,12 @@
 </head>
 <body>
 	<div class="container screen">
-		<div class="welcome">
+		<div id="map"></div>
+		<div id="welcome">
 			<h1>Welcome back, <br>Valerie.</h1>
 			<p>Tap a marker to view the note.</p>
 		</div>
-		<img id="marker" src="css/assets/marker.svg"></img>
+		<!--<img id="marker" src="css/assets/marker.svg"></img>
 
 		<div class="navigation">
 			<div class="addplace">
@@ -37,9 +41,8 @@
 						href="settings.handlebars" onclick="goToPage(this.href);return false">
 			</div>
 
-		</div>
+		</div>-->
 	</div>
-
 </body>
 
 

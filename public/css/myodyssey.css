@@ -8,14 +8,32 @@
 	/* Colors are in hexadecimal: http://www.colorpicker.com/ */
 	color: #CC00AA;
 }
+#map {
+  position: absolute;
+  height: 100%;
+  width: inherit;
+  z-index: 0;
+}
 
+#welcome {
+  position: relative;
+  z-index: 1;
+  width: 350px;
+  margin: 12px;
+  padding: 15px;
+  background: white;
+  border-radius: 30px;
+  height: auto;
+}
+
+/* iphone 11/X screen for dev purposes */
 .screen {
   width: 375px;
   height: 812px;
-  background-image: url("assets/MapPlaceholder.jpg");
+  /*background-image: url("assets/MapPlaceholder.jpg");*/
 }
 
-.welcome {
+/*.welcome {
   position: relative;
   width: 350px;
   height: 135px;
@@ -83,4 +101,4 @@
   bottom: 100px;
 	left: 110px
 
-}
+}*/
