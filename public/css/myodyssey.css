@@ -1,0 +1,40 @@
+/* applies to anything of class "example-class-selector" */
+.example-class-selector {
+	margin-top: 2em;
+}
+
+/* applies to any <p> descendants of an element of class "example-class-selector" */
+.example-class-selector p {
+	/* Colors are in hexadecimal: http://www.colorpicker.com/ */
+	color: #CC00AA;
+}
+
+.screen {
+  width: 375px;
+  height: 812px;
+  background-image: url("assets/MapPlaceholder.jpg");
+}
+
+.welcome {
+  position: relative;
+  width: 350px;
+  height: 135px;
+  right: 3px;
+  background: white;
+  border-radius: 30px;
+}
+
+.welcome h1{
+  position: relative;
+  left: 6%;
+  right: 13%;
+  top: 7%;
+  bottom: 15%;
+  line-height: 47px;
+}
+
+.welcome p {
+  position: relative;
+  left: 6%;
+  line-height: 17px;
+}
