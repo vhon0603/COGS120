@@ -11,21 +11,30 @@
 #map {
   position: absolute;
   height: 100%;
-  width: inherit;
+  width: 100%;
   z-index: 0;
 }
 
 #welcome {
   position: relative;
   z-index: 1;
-  width: 350px;
-  margin: 12px;
+  width: 100%;
+  margin: 10px;
   padding: 15px;
   background: white;
   border-radius: 30px;
   height: auto;
 }
 
+#note-form {
+	position: relative;
+	z-index: 1;
+}
+
+#Login {
+	position: relative;
+	z-index: 1;
+}
 /* iphone 11/X screen for dev purposes */
 .screen {
   width: 375px;

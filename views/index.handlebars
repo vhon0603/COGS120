@@ -9,7 +9,7 @@
 	<script src="js/myodyssey.js"></script>
 	<!--- TODO IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO -->
 	<!--- !!!!!!!! DO N O T PUSH TO GITHUB WITHOUT REMOVING API KEY !!!!!!! -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBtHkrjESn988q3AksubMJnw0Vae8HZdlo&callback=initMap"
     async defer></script>
 
 	<link href="css/bootstrap.css" rel="stylesheet">
@@ -18,42 +18,31 @@
 
 </head>
 <body>
-	<div id="floating-panel">
-      <input id="address" type="textbox" value="Sydney, NSW">
-      <input id="submit" type="button" value="Geocode">
-    </div>
-	<div class="container screen">
+	<div class="container">
 		<div id="map"></div>
+		<div id="Login">
+			<input id="name" type="textbox" placeholder="What's your Name?">
+			<input id ="enter" type="button" value="Enter MyOdyssey!" action="/add">
+		</div>
+
 		<div id="welcome">
-			<h1>Welcome back, <br>Valerie.</h1>
+			<h1>Welcome back, <br>{{name}}</h1>
 			<p>Tap a marker to view the note.</p>
 		</div>
-		<!--<img id="marker" src="css/assets/marker.svg"></img>
 
-		<div class="navigation">
-			<div class="addplace">
-				<input type="image" src="css/assets/marker.svg" img width=50px height=50px
-						name="locationBtn" id="addLocation" class="locationBtn"></img>
+		<p id="try"></p>
+
+		<div id="note-form">
+				<input id="address" type="textbox" placeholder="La Jolla Cove">
+				<input id="note" type="textbox" placeholder="Type a note here">
+				<input id="submit" type="button" placeholder="Add Note">
 			</div>
-
-			<div class="settings">
-				<input type="image" src="css/assets/settings-gear.svg" img width=50px height=50px
-						name="settingsBtn" id="goSettings" class="settingsBtn"></img>
-			</div>
-
-			<div class="friends">
-				<input type="image" src="css/assets/friends.svg" img width=50px height=50px
-						name="friendsBtn" id="addFriends" class="friendsBtn"
-						href="settings.handlebars" onclick="goToPage(this.href);return false">
-			</div>
-
-		</div>-->
+		<!--<img id="settings" src="css/assets/settings.svg"></img>-->
 	</div>
-	<img id="settings" src="css/assets/settings.svg"></img>
-
 </body>
+</html>
 
 
-<a href="settings.handlebars"
+<!--<a href="settings.handlebars"
 	onclick="basicPopup(this.href);return false">Open a popup window</a>
-</a>
+</a>-->

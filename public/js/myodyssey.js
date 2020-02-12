@@ -1,4 +1,5 @@
 'use strict';
+var json = "../../data.json";
 
 // Call this function when the page loads (the "ready" event)
 $(document).ready(function() {
@@ -11,6 +12,13 @@ $(document).ready(function() {
 	});*/
 })
 
+//wizard of oz login
+/*function populateName(){
+	var x = document.getElementByID('name').value;
+	document.getElementbyID('try') = x;
+}*/
+
+
 /*
  * Function that is called when the document is ready.
  */
@@ -18,7 +26,7 @@ function initializePage() {
 	console.log("Javascript connected!");
 }
 
-// When the user clicks the marker, an info window opens.
+// Initialize the map
 function initMap() {
   var gliderport = {lat: 32.890128, lng:-117.251115};
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -26,6 +34,18 @@ function initMap() {
     center: gliderport,
     disableDefaultUI: true
   });
+
+	$.getJSON("data.json", function(json1) {
+    $.each(json1, function(key, data) {
+        var latLng = new google.maps.LatLng(data.lat, data.long);
+        // Creating a marker and putting it on the map
+        var marker = new google.maps.Marker({
+            position: latLng,
+            map: map,
+            title: data.title
+        });
+    });
+});
 
   var geocoder = new google.maps.Geocoder();
 
@@ -54,12 +74,21 @@ function addMarker(location, map) {
 
   var title = document.getElementById('address').value;
   var address = location.formatted_address;
-  var infowindow = new google.maps.InfoWindow({
-    content: title + '<br>' + address
+  var addressPopup = new google.maps.InfoWindow({
+    content: '<b>' + title + '</b><br>' + address
   });
 
-  infowindow.open(map, marker);
-  marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });
+	addNote("Test note", "Shauna", marker, map);
+
+  addressPopup.open(map, marker);
+
+  marker.addListener('click', viewNote(marker, infowindow, note, user, date, map));
+}
+
+function addNote(noteContent, user, marker, map) {
+
+}
+
+function viewNote(marker, map) {
+
 }
