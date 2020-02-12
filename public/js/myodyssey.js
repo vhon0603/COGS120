@@ -27,24 +27,38 @@ function initMap() {
     disableDefaultUI: true
   });
 
-  var contentString = '<div id="content">'+
-      '<div id="siteNotice">'+
-      '</div>'+
-      '<div id="bodyContent">'+
-      '<p><b>Torrey Pines Gliderport</b><br>2800 Torrey Pines Scenic Dr,' +
-      '<br>La Jolla, CA <br>92037</p>'+
-      '</div>'+
-      '</div>';
+  var geocoder = new google.maps.Geocoder();
 
-  var infowindow = new google.maps.InfoWindow({
-    content: contentString
+  document.getElementById('submit').addEventListener('click', function() {
+    geocodeAddress(geocoder, map);
   });
+}
 
+function geocodeAddress(geocoder, resultsMap) {
+  var address = document.getElementById('address').value;
+  geocoder.geocode({'address': address}, function(results, status) {
+    if (status == 'OK') {
+      resultsMap.setCenter(results[0].geometry.location);
+      addMarker(results[0], resultsMap);
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+function addMarker(location, map) {
   var marker = new google.maps.Marker({
-    position: gliderport,
-    map: map,
-    title: 'Torrey Pines Gliderport'
+    position: location.geometry.location,
+    map: map
   });
+
+  var title = document.getElementById('address').value;
+  var address = location.formatted_address;
+  var infowindow = new google.maps.InfoWindow({
+    content: title + '<br>' + address
+  });
+
+  infowindow.open(map, marker);
   marker.addListener('click', function() {
     infowindow.open(map, marker);
   });

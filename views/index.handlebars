@@ -7,7 +7,9 @@
 	<script src="js/jquery-1.11.0.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script src="js/myodyssey.js"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCi2k2bysV7neHGNcdGc6cLsTGPmwX0gQg&callback=initMap"
+	<!--- TODO IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO -->
+	<!--- !!!!!!!! DO N O T PUSH TO GITHUB WITHOUT REMOVING API KEY !!!!!!! -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
     async defer></script>
 
 	<link href="css/bootstrap.css" rel="stylesheet">
@@ -16,6 +18,10 @@
 
 </head>
 <body>
+	<div id="floating-panel">
+      <input id="address" type="textbox" value="Sydney, NSW">
+      <input id="submit" type="button" value="Geocode">
+    </div>
 	<div class="container screen">
 		<div id="map"></div>
 		<div id="welcome">
@@ -43,6 +49,8 @@
 
 		</div>-->
 	</div>
+	<img id="settings" src="css/assets/settings.svg"></img>
+
 </body>
 
 
