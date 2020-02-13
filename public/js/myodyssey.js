@@ -1,10 +1,12 @@
 'use strict';
-var json = "../../data.json";
+  // var data = {{{json locations.stringify}}}
+  // console.log(data)
+  var arrayData = [];
 
 // Call this function when the page loads (the "ready" event)
 $(document).ready(function() {
 	initializePage();
-
+  console.log(document.getElementById("test").textContent)
 	/*$("h3").click(function(e) {
 		e.preventDefault();
 		var name = $(this).text();
@@ -23,19 +25,34 @@ $(document).ready(function() {
  * Function that is called when the document is ready.
  */
 function initializePage() {
-	console.log("Javascript connected!");
+
+  console.log("Javascript connected!");
+  $.get('/json', testFunc);
 }
 
-// Initialize the map
+function testFunc(result) {
+  console.log("testFunc")
+  for(var i in result.markers) {
+      arrayData.push([i, result.markers[i]]);
+  }
+
+}
+
+// Initialize the map, result now contains the json data 
 function initMap() {
+  console.log("initMap")
+  console.log(arrayData)
+
   var gliderport = {lat: 32.890128, lng:-117.251115};
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
     center: gliderport,
     disableDefaultUI: true
-  });
+  });1
 
-	$.getJSON("data.json", function(json1) {
+
+
+	/*$.getJSON(json, function(json1) {
     $.each(json1, function(key, data) {
         var latLng = new google.maps.LatLng(data.lat, data.long);
         // Creating a marker and putting it on the map
@@ -45,7 +62,7 @@ function initMap() {
             title: data.title
         });
     });
-});
+});*/
 
   var geocoder = new google.maps.Geocoder();
 
