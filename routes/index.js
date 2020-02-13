@@ -1,7 +1,6 @@
-
 var data = require('../data.json');
 
 exports.view = function(request, response){
-	console.log(data);
-	response.render('index', data);
+	data.stringify = JSON.stringify(data);
+	response.render('index', {'locations':data});
 };
