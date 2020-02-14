@@ -15,7 +15,7 @@
   z-index: 0;
 }
 
-#welcome {
+.topbox {
   position: relative;
   z-index: 1;
   width: 100%;
@@ -31,7 +31,7 @@
 	z-index: 1;
 }
 
-#Login {
+#login {
 	position: relative;
 	z-index: 1;
 }

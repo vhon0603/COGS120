@@ -1,17 +1,12 @@
 'use strict';
   // var data = {{{json locations.stringify}}}
   // console.log(data)
-  var arrayData = [];
+  var arrayData;
+  var map;
 
 // Call this function when the page loads (the "ready" event)
 $(document).ready(function() {
 	initializePage();
-  console.log(document.getElementById("test").textContent)
-	/*$("h3").click(function(e) {
-		e.preventDefault();
-		var name = $(this).text();
-		$(this).text(anagrammedName(name));
-	});*/
 })
 
 //wizard of oz login
@@ -25,44 +20,54 @@ $(document).ready(function() {
  * Function that is called when the document is ready.
  */
 function initializePage() {
-
   console.log("Javascript connected!");
-  $.get('/json', testFunc);
 }
 
+/*PARSES THE JSON*/
 function testFunc(result) {
-  console.log("testFunc")
-  for(var i in result.markers) {
-      arrayData.push([i, result.markers[i]]);
+  for(var i = 0; i < result.markers.length; i++){
+    //get the actual marker
+    var x = result.markers[i].coordinatesX;
+    var y = parseFloat(result.markers[i].coordinatesY);
+    var resultLocation = new google.maps.LatLng(x, y);
+    var marker = new google.maps.Marker({
+      position: resultLocation,
+      map: map,
+      title: result.markers[i].title,
+      clickable: true
+    })
+
+    //info window content 
+    var title = result.markers[i].title
+    var date = result.markers[i].date
+    var noteContent = result.markers[i].noteContent
+    var owner = result.markers[i].person
+    marker['infowindow'] = new google.maps.InfoWindow({
+      content: title.bold().big() + "<br>" + date.small() + "<br>" + noteContent + "<br>" + owner.italics()
+    });
+
+    //info window commands
+    google.maps.event.addListener(marker, 'mouseover', function() {
+      this['infowindow'].open(map, this);
+    });
+    google.maps.event.addListener(marker, 'mouseout', function () {
+      this['infowindow'].close();
+    });
+    
   }
 
 }
 
 // Initialize the map, result now contains the json data 
 function initMap() {
-  console.log("initMap")
-  console.log(arrayData)
-
   var gliderport = {lat: 32.890128, lng:-117.251115};
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
     center: gliderport,
     disableDefaultUI: true
-  });1
+  });
 
-
-
-	/*$.getJSON(json, function(json1) {
-    $.each(json1, function(key, data) {
-        var latLng = new google.maps.LatLng(data.lat, data.long);
-        // Creating a marker and putting it on the map
-        var marker = new google.maps.Marker({
-            position: latLng,
-            map: map,
-            title: data.title
-        });
-    });
-});*/
+  $.get('/json', testFunc);
 
   var geocoder = new google.maps.Geocoder();
 
