@@ -47,10 +47,11 @@ function testFunc(result) {
     });
 
     //info window commands
-    google.maps.event.addListener(marker, 'mouseover', function() {
+    google.maps.event.addListener(marker, 'click', function() {
       this['infowindow'].open(map, this);
     });
-    google.maps.event.addListener(marker, 'mouseout', function () {
+    //unclick might be wrong 
+    google.maps.event.addListener(marker, 'unclick', function () {
       this['infowindow'].close();
     });
     
@@ -81,30 +82,54 @@ function geocodeAddress(geocoder, resultsMap) {
   geocoder.geocode({'address': address}, function(results, status) {
     if (status == 'OK') {
       resultsMap.setCenter(results[0].geometry.location);
-      addMarker(results[0], resultsMap);
+      //pass in owner and note as well 
+      var owner = document.getElementById('name')
+      var noteContent = document.getElementById('note')
+      console.log(owner)
+      console.log(noteContent)
+      console.log('before add marker')
+      addMarker(results[0], owner, noteContent, resultsMap);
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
   });
 }
 
-function addMarker(location, map) {
+function addMarker(location, owner, noteContent, map) {
   var marker = new google.maps.Marker({
     position: location.geometry.location,
-    map: map
+    map: map,
+    clickable: true,
+    title: document.getElementById('address').value
   });
 
-  var title = document.getElementById('address').value;
+  //IDK WHY VALUES AREN'T BEING PASSED IN 
+  //var title = document.getElementById('address').value;
+  //var owner = document.getElementById('name');
+  console.log(owner);
+  var date = "1 minute ago";
+  //var noteContent = document.getElementById('note');
+  console.log(noteContent);
+
   var address = location.formatted_address;
-  var addressPopup = new google.maps.InfoWindow({
-    content: '<b>' + title + '</b><br>' + address
+
+  marker['infowindow'] = new google.maps.InfoWindow({
+    content: address.bold().big() + "<br>" + date.small() + "<br>" + noteContent + "<br>" + owner.italics()
   });
 
-	addNote("Test note", "Shauna", marker, map);
-
+	//addNote("Test note", "Shauna", marker, map);
   addressPopup.open(map, marker);
 
-  marker.addListener('click', viewNote(marker, infowindow, note, user, date, map));
+  //info window commands
+  google.maps.event.addListener(marker, 'click', function() {
+    this['infowindow'].open(map, this);
+  });
+  //unclick might be wrong 
+  google.maps.event.addListener(marker, 'unclick', function () {
+    this['infowindow'].close();
+  });
+
+  //marker.addListener('click', viewNote(marker, infowindow, note, user, date, map));
 }
 
 function addNote(noteContent, user, marker, map) {
