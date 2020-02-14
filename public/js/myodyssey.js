@@ -37,7 +37,7 @@ function testFunc(result) {
       clickable: true
     })
 
-    //info window content 
+    //info window content
     var title = result.markers[i].title
     var date = result.markers[i].date
     var noteContent = result.markers[i].noteContent
@@ -50,16 +50,16 @@ function testFunc(result) {
     google.maps.event.addListener(marker, 'click', function() {
       this['infowindow'].open(map, this);
     });
-    //unclick might be wrong 
+    //unclick might be wrong
     google.maps.event.addListener(marker, 'unclick', function () {
       this['infowindow'].close();
     });
-    
+
   }
 
 }
 
-// Initialize the map, result now contains the json data 
+// Initialize the map, result now contains the json data
 function initMap() {
   var gliderport = {lat: 32.890128, lng:-117.251115};
   map = new google.maps.Map(document.getElementById('map'), {
@@ -72,9 +72,12 @@ function initMap() {
 
   var geocoder = new google.maps.Geocoder();
 
-  document.getElementById('submit').addEventListener('click', function() {
+  /*document.getElementById('submit').addEventListener('click', function() {
     geocodeAddress(geocoder, map);
-  });
+  });*/
+	$("#submitNote").click(function() {
+		geocodeAddress(geocoder, map);
+	});
 }
 
 function geocodeAddress(geocoder, resultsMap) {
@@ -82,31 +85,44 @@ function geocodeAddress(geocoder, resultsMap) {
   geocoder.geocode({'address': address}, function(results, status) {
     if (status == 'OK') {
       resultsMap.setCenter(results[0].geometry.location);
-      //pass in owner and note as well 
-      var owner = document.getElementById('name')
-      var noteContent = document.getElementById('note')
-      console.log(owner)
-      console.log(noteContent)
-      console.log('before add marker')
-      addMarker(results[0], owner, noteContent, resultsMap);
+      //pass in owner and note as well
+      var owner = document.getElementById('name');
+      var noteContent = document.getElementById('note');
+      console.log(owner);
+      console.log(noteContent);
+      console.log('before add marker');
+      //addMarker(results[0], owner, noteContent, resultsMap);
+			addMarker(results[0], resultsMap);
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
   });
 }
 
-function addMarker(location, owner, noteContent, map) {
+function addMarker(location, map) {
   var marker = new google.maps.Marker({
     position: location.geometry.location,
     map: map,
     clickable: true,
     title: document.getElementById('address').value
   });
+	var date = new Date();
+	var user = document.getElementById('userName').innerHTML;
+	var noteContent = $("#note").val();
 
-  //IDK WHY VALUES AREN'T BEING PASSED IN 
+	var infowindow = new google.maps.InfoWindow({
+    content: location.formatted_address + "<br>" + date.toDateString() + "<br>" + noteContent + "<br>" + user,
+  });
+
+	infowindow.open(map, marker);
+	marker.addListener('click', function() {
+		infowindow.open(map, marker);
+	});
+
+  //IDK WHY VALUES AREN'T BEING PASSED IN
   //var title = document.getElementById('address').value;
   //var owner = document.getElementById('name');
-  console.log(owner);
+  /*console.log(owner);
   var date = "1 minute ago";
   //var noteContent = document.getElementById('note');
   console.log(noteContent);
@@ -124,10 +140,10 @@ function addMarker(location, owner, noteContent, map) {
   google.maps.event.addListener(marker, 'click', function() {
     this['infowindow'].open(map, this);
   });
-  //unclick might be wrong 
+  //unclick might be wrong
   google.maps.event.addListener(marker, 'unclick', function () {
     this['infowindow'].close();
-  });
+  });*/
 
   //marker.addListener('click', viewNote(marker, infowindow, note, user, date, map));
 }

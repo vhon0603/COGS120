@@ -1,4 +1,5 @@
 <html>
+
 <head>
 	<title>MyOdyssey</title>
 	<meta charset="utf-8">
@@ -9,44 +10,56 @@
 	<script src="js/myodyssey.js"></script>
 	<!--- TODO IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO -->
 	<!--- !!!!!!!! DO N O T PUSH TO GITHUB WITHOUT REMOVING API KEY !!!!!!! -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
-    async defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD_I_ykfKa9J2nP9J8hla4BZrB2maf8Los&callback=initMap" async defer></script>
 
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/bootstrap-theme.css" rel="stylesheet">
 	<link href="css/myodyssey.css" rel="stylesheet">
 
 </head>
+
 <body>
 	<div class="container">
 		<div id="map"></div>
 
-		<div class="topbox" id="welcome">
-			{{#if username}}
-			<h1>Welcome back, <br>{{username}}</h1>
-			<p>Tap a marker to view the note.</p>
-			{{/if}}
-		</div>
+		<div class="topbox">
 
-		<div class="topbox" id="login">
-			{{#unless username}}
-			<form id="loginForm" role="form" method="get" action="/">
-			<input name="name" id="name" type="text" placeholder="What's your Name?">
-			<input id ="loginBtn" type="submit" class="btn btn-default" value="Enter MyOdyssey!">
-			</form>
-			{{/unless}}
+			<div id="welcome">
+				{{#if username}}
+					<h1>Welcome back, <br>
+						<div id="userName">{{username}}</div>
+					</h1>
+					<p>Tap a marker to view the note.</p>
+				{{/if}}
+			</div>
+
+			<div id="login">
+				{{#unless username}}
+					<form id="loginForm" role="form" method="get" action="/">
+						<input name="name" id="name" type="text" placeholder="What's your Name?">
+						<input id="loginBtn" type="submit" class="btn btn-default" value="Enter MyOdyssey!">
+					</form>
+				{{/unless}}
+			</div>
 		</div>
 
 		<p id="try"></p>
 
-		<div id="note-form">
-				<input id="address" type="textbox" placeholder="La Jolla Cove">
-				<input id="note" type="textbox" placeholder="Type a note here">
-				<input id="submit" type="button" placeholder="Add Note">
-			</div>
+		{{#if username}}
+		<div id="note-form" class="topbox">
+			<div class="form-group">
+			<input id="address" type="textbox" class="form-control" placeholder="La Jolla Cove">
+		</div>
+		<div class="form-group">
+			<input id="note" type="textbox" class="form-control" placeholder="Type a note here">
+		</div>
+			<input id="submitNote" type="submit" class="btn btn-default" value="Add Note">
+		</div>
+		{{/if}}
 		<!--<img id="settings" src="css/assets/settings.svg"></img>-->
 	</div>
 </body>
+
 </html>
 
 
