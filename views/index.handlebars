@@ -10,8 +10,7 @@
 	<script src="js/myodyssey.js"></script>
 	<!--- TODO IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! TODO -->
 	<!--- !!!!!!!! DO N O T PUSH TO GITHUB WITHOUT REMOVING API KEY !!!!!!! -->
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLuZ6-0EKTfNG83DdDjsJ5X1TMrOQMklI&callback=initMap&libraries=places" async defer></script>
-	<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLuZ6-0EKTfNG83DdDjsJ5X1TMrOQMklI&libraries=places"></script>-->
+	<script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&libraries=places" async defer></script>
 
 	<link href="css/bootstrap.css" rel="stylesheet">
 	<link href="css/bootstrap-theme.css" rel="stylesheet">
@@ -27,10 +26,24 @@
 
 			<div class="col" id="welcome">
 				{{#if username}}
+
 					<h1>Welcome back, <br>
 						<div id="userName">{{username}}</div>
 					</h1>
 					<p>Tap a marker to view the note.</p>
+
+					<button type="button" class="collapsible btn btn-default" data-toggle="collapse" data-target="#note-form">Add Note</button>
+
+					<div id="note-form" class="collapse">
+						<div class="form-group">
+							<input id="address" type="text" class="form-control" placeholder="La Jolla Cove">
+						</div>
+						<div class="form-group">
+							<input id="note" type="textbox" class="form-control" placeholder="Type a note here">
+						</div>
+						<input id="submitNote" type="submit" class="btn btn-default" value="Submit">
+					</div>
+
 				{{/if}}
 			</div>
 
@@ -47,18 +60,6 @@
 				{{/unless}}
 			</div>
 		</div>
-
-		{{#if username}}
-			<div id="note-form" class="topbox">
-				<div class="form-group">
-					<input id="address" type="text" class="form-control" placeholder="La Jolla Cove">
-				</div>
-				<div class="form-group">
-					<input id="note" type="textbox" class="form-control" placeholder="Type a note here">
-				</div>
-				<input id="submitNote" type="submit" class="btn btn-default" value="Add Note">
-			</div>
-		{{/if}}
 		<!--<img id="settings" src="css/assets/settings.svg"></img>-->
 	</div>
 </body>
