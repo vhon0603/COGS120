@@ -3,6 +3,7 @@
   // console.log(data)
   var arrayData;
   var map;
+  var refResult;
 
 // Call this function when the page loads (the "ready" event)
 $(document).ready(function() {
@@ -25,6 +26,7 @@ function initializePage() {
 
 /*PARSES THE JSON*/
 function testFunc(result) {
+  refResult = result;
   for(var i = 0; i < result.markers.length; i++){
     //get the actual marker
     var x = result.markers[i].coordinatesX;
@@ -54,9 +56,7 @@ function testFunc(result) {
     google.maps.event.addListener(marker, 'unclick', function () {
       this['infowindow'].close();
     });
-
   }
-
 }
 
 // Initialize the map, result now contains the json data
@@ -69,9 +69,7 @@ function initMap() {
   });
 
   $.get('/json', testFunc);
-
   var geocoder = new google.maps.Geocoder();
-
   /*document.getElementById('submit').addEventListener('click', function() {
     geocodeAddress(geocoder, map);
   });*/
@@ -88,9 +86,6 @@ function geocodeAddress(geocoder, resultsMap) {
       //pass in owner and note as well
       var owner = document.getElementById('name');
       var noteContent = document.getElementById('note');
-      console.log(owner);
-      console.log(noteContent);
-      console.log('before add marker');
       //addMarker(results[0], owner, noteContent, resultsMap);
 			addMarker(results[0], resultsMap);
     } else {
@@ -106,18 +101,47 @@ function addMarker(location, map) {
     clickable: true,
     title: document.getElementById('address').value
   });
+  // console.log("PRINTING LOCATION")
+  // console.log(typeof location.geometry.location);
 	var date = new Date();
 	var user = document.getElementById('userName').innerHTML;
 	var noteContent = $("#note").val();
-
 	var infowindow = new google.maps.InfoWindow({
-    content: location.formatted_address + "<br>" + date.toDateString() + "<br>" + noteContent + "<br>" + user,
+    content: location.formatted_address.bold().big() + "<br>" + date.toDateString().small() + "<br>" + noteContent + "<br>" + user.italics(),
   });
 
 	infowindow.open(map, marker);
 	marker.addListener('click', function() {
 		infowindow.open(map, marker);
 	});
+
+  var objectToAdd = {
+			"title": location.formatted_address,
+			"coordinatesX": location.geometry.location.lat,
+			"coordinatesY": location.geometry.location.lng,
+			"address": location.formatted_address,
+			"person": user,
+			"date": date.toDateString(),
+      "noteContent": noteContent
+	}
+
+  refResult.markers.push(objectToAdd)
+  $.post('/json', refResult, function(res){
+    console.log(res)
+  });
+
+
+  /*refResult.markers.push(objectToAdd);
+  refResult = JSON.stringify(refResult)
+
+  fs.writeFile("./sample.txt", fileContent, (err) => {
+  if (err) {
+      console.error(err);
+      return;
+  };
+  console.log("File has been created");
+});*/
+
 
   //IDK WHY VALUES AREN'T BEING PASSED IN
   //var title = document.getElementById('address').value;

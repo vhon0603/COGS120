@@ -41,6 +41,7 @@ app.get('/', index.view);
 app.get('/settings', settings.view);
 app.get('/add/:userName', add.view);
 app.get('/json', json.getInfo);
+app.post('/json', json.addJSON);
 // Example route
 // app.get('/users', user.list);
 
