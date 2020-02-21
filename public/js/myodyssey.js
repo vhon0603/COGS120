@@ -1,13 +1,15 @@
 'use strict';
-  // var data = {{{json locations.stringify}}}
-  // console.log(data)
-  var arrayData;
-  var map;
-  var refResult;
+// var data = {{{json locations.stringify}}}
+// console.log(data)
+var arrayData;
+var map;
+var autocomplete;
+var places;
+var refResult;
 
 // Call this function when the page loads (the "ready" event)
 $(document).ready(function() {
-	initializePage();
+  initializePage();
 })
 
 //wizard of oz login
@@ -27,7 +29,7 @@ function initializePage() {
 /*PARSES THE JSON*/
 function testFunc(result) {
   refResult = result;
-  for(var i = 0; i < result.markers.length; i++){
+  for (var i = 0; i < result.markers.length; i++) {
     //get the actual marker
     var x = result.markers[i].coordinatesX;
     var y = parseFloat(result.markers[i].coordinatesY);
@@ -53,7 +55,7 @@ function testFunc(result) {
       this['infowindow'].open(map, this);
     });
     //unclick might be wrong
-    google.maps.event.addListener(marker, 'unclick', function () {
+    google.maps.event.addListener(marker, 'unclick', function() {
       this['infowindow'].close();
     });
   }
@@ -61,37 +63,52 @@ function testFunc(result) {
 
 // Initialize the map, result now contains the json data
 function initMap() {
-  var gliderport = {lat: 32.890128, lng:-117.251115};
+  var gliderport = {
+    lat: 32.890128,
+    lng: -117.251115
+  };
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
     center: gliderport,
     disableDefaultUI: true
   });
 
+  var addressInput = document.getElementById('address');
+  autocomplete = new google.maps.places.Autocomplete(addressInput);
+  places = new google.maps.places.PlacesService(map);
+
   $.get('/json', testFunc);
   var geocoder = new google.maps.Geocoder();
+
   /*document.getElementById('submit').addEventListener('click', function() {
     geocodeAddress(geocoder, map);
   });*/
-	$("#submitNote").click(function() {
-		geocodeAddress(geocoder, map);
-	});
+  $("#submitNote").click(function() {
+    //getAddress(autocomplete, map);
+    geocodeAddress(geocoder, map);
+  });
 }
 
 function geocodeAddress(geocoder, resultsMap) {
   var address = document.getElementById('address').value;
-  geocoder.geocode({'address': address}, function(results, status) {
+  geocoder.geocode({
+    'address': address
+  }, function(results, status) {
     if (status == 'OK') {
       resultsMap.setCenter(results[0].geometry.location);
       //pass in owner and note as well
       var owner = document.getElementById('name');
       var noteContent = document.getElementById('note');
       //addMarker(results[0], owner, noteContent, resultsMap);
-			addMarker(results[0], resultsMap);
+      addMarker(results[0], resultsMap);
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
   });
+}
+
+function getAddress(autocomplete, map) {
+
 }
 
 function addMarker(location, map) {
@@ -103,30 +120,30 @@ function addMarker(location, map) {
   });
   // console.log("PRINTING LOCATION")
   // console.log(typeof location.geometry.location);
-	var date = new Date();
-	var user = document.getElementById('userName').innerHTML;
-	var noteContent = $("#note").val();
-	var infowindow = new google.maps.InfoWindow({
+  var date = new Date();
+  var user = document.getElementById('userName').innerHTML;
+  var noteContent = $("#note").val();
+  var infowindow = new google.maps.InfoWindow({
     content: location.formatted_address.bold().big() + "<br>" + date.toDateString().small() + "<br>" + noteContent + "<br>" + user.italics(),
   });
 
-	infowindow.open(map, marker);
-	marker.addListener('click', function() {
-		infowindow.open(map, marker);
-	});
+  infowindow.open(map, marker);
+  marker.addListener('click', function() {
+    infowindow.open(map, marker);
+  });
 
   var objectToAdd = {
-			"title": location.formatted_address,
-			"coordinatesX": location.geometry.location.lat,
-			"coordinatesY": location.geometry.location.lng,
-			"address": location.formatted_address,
-			"person": user,
-			"date": date.toDateString(),
-      "noteContent": noteContent
-	}
+    "title": location.formatted_address,
+    "coordinatesX": location.geometry.location.lat,
+    "coordinatesY": location.geometry.location.lng,
+    "address": location.formatted_address,
+    "person": user,
+    "date": date.toDateString(),
+    "noteContent": noteContent
+  }
 
   refResult.markers.push(objectToAdd)
-  $.post('/json', refResult, function(res){
+  $.post('/json', refResult, function(res) {
     console.log(res)
   });
 
