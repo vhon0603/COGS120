@@ -47,6 +47,21 @@
   /*background-image: url("assets/MapPlaceholder.jpg");*/
 }
 
+.btn {
+  border: 0;
+  background: #F25D50;
+  color: #FFF;
+  cursor: pointer;
+  outline: 0;
+}
+.btn:hover {
+  background: #E9574B;
+}
+
+#welcome {
+	color: #2D999F;
+}
+
 /*.welcome {
   position: relative;
   width: 350px;
