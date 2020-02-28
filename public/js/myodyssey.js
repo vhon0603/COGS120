@@ -6,6 +6,7 @@ var map;
 var autocomplete;
 var places;
 var refResult;
+var infowindow;
 
 // Call this function when the page loads (the "ready" event)
 $(document).ready(function() {
@@ -46,18 +47,22 @@ function testFunc(result) {
     var date = result.markers[i].date
     var noteContent = result.markers[i].noteContent
     var owner = result.markers[i].person
-    marker['infowindow'] = new google.maps.InfoWindow({
+    var content = title.bold().big() + "<br>" + date.small() + "<br>" + noteContent + "<br>" + owner.italics();
+    /*marker['infowindow'] var infowindow = new google.maps.InfoWindow({
       content: title.bold().big() + "<br>" + date.small() + "<br>" + noteContent + "<br>" + owner.italics()
-    });
+    });*/
 
-    //info window commands
-    google.maps.event.addListener(marker, 'click', function() {
+    // info window commands
+    /*google.maps.event.addListener(marker, 'click', function() {
       this['infowindow'].open(map, this);
     });
     //unclick might be wrong
-    google.maps.event.addListener(marker, 'unclick', function() {
+    google.maps.event.addListener(marker, 'click', function() {
       this['infowindow'].close();
-    });
+    });*/
+
+    // new info window controls
+    markerView(map, marker, infowindow, content, false);
   }
 }
 
@@ -76,6 +81,7 @@ function initMap() {
   var addressInput = document.getElementById('address');
   autocomplete = new google.maps.places.Autocomplete(addressInput);
   places = new google.maps.places.PlacesService(map);
+  infowindow = new google.maps.InfoWindow;
 
   $.get('/json', testFunc);
   var geocoder = new google.maps.Geocoder();
@@ -107,10 +113,6 @@ function geocodeAddress(geocoder, resultsMap) {
   });
 }
 
-function getAddress(autocomplete, map) {
-
-}
-
 function addMarker(location, map) {
   var marker = new google.maps.Marker({
     position: location.geometry.location,
@@ -118,19 +120,23 @@ function addMarker(location, map) {
     clickable: true,
     title: document.getElementById('address').value
   });
-  // console.log("PRINTING LOCATION")
-  // console.log(typeof location.geometry.location);
+
   var date = new Date();
   var user = document.getElementById('userName').innerHTML;
   var noteContent = $("#note").val();
-  var infowindow = new google.maps.InfoWindow({
+  var content = location.formatted_address.bold().big() + "<br>" + date.toDateString().small() + "<br>" + noteContent + "<br>" + user.italics();
+  /*var infowindow = new google.maps.InfoWindow({
     content: location.formatted_address.bold().big() + "<br>" + date.toDateString().small() + "<br>" + noteContent + "<br>" + user.italics(),
-  });
+  });*/
 
-  infowindow.open(map, marker);
+  // infowindow commands
+  /*infowindow.open(map, marker);
   marker.addListener('click', function() {
     infowindow.open(map, marker);
-  });
+  });*/
+
+  // new info window controls
+  markerView(map, marker, infowindow, content, true);
 
   var objectToAdd = {
     "title": location.formatted_address,
@@ -146,53 +152,27 @@ function addMarker(location, map) {
   $.post('/json', refResult, function(res) {
     console.log(res)
   });
+}
 
-
-  /*refResult.markers.push(objectToAdd);
-  refResult = JSON.stringify(refResult)
-
-  fs.writeFile("./sample.txt", fileContent, (err) => {
-  if (err) {
-      console.error(err);
-      return;
-  };
-  console.log("File has been created");
-});*/
-
-
-  //IDK WHY VALUES AREN'T BEING PASSED IN
-  //var title = document.getElementById('address').value;
-  //var owner = document.getElementById('name');
-  /*console.log(owner);
-  var date = "1 minute ago";
-  //var noteContent = document.getElementById('note');
-  console.log(noteContent);
-
-  var address = location.formatted_address;
-
-  marker['infowindow'] = new google.maps.InfoWindow({
-    content: address.bold().big() + "<br>" + date.small() + "<br>" + noteContent + "<br>" + owner.italics()
-  });
-
-	//addNote("Test note", "Shauna", marker, map);
-  addressPopup.open(map, marker);
-
-  //info window commands
+// handles opening and closing info windows on markers
+function markerView(map, marker, infowindow, content, isNew) {
+  if (isNew) {
+    infowindow.setContent(content);
+    infowindow.open(map, marker);
+    marker.open = true;
+  }
   google.maps.event.addListener(marker, 'click', function() {
-    this['infowindow'].open(map, this);
+    if (!marker.open) {
+      infowindow.setContent(content);
+      infowindow.open(map, marker);
+      marker.open = true;
+    } else {
+      infowindow.close();
+      marker.open = false;
+    }
+    google.maps.event.addListener(map, 'click', function() {
+      infowindow.close();
+      marker.open = false;
+    });
   });
-  //unclick might be wrong
-  google.maps.event.addListener(marker, 'unclick', function () {
-    this['infowindow'].close();
-  });*/
-
-  //marker.addListener('click', viewNote(marker, infowindow, note, user, date, map));
-}
-
-function addNote(noteContent, user, marker, map) {
-
-}
-
-function viewNote(marker, map) {
-
 }
