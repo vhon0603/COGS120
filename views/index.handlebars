@@ -27,12 +27,16 @@
 			<div class="col" id="welcome">
 				{{#if username}}
 
-					<h1>Welcome back, <br>
-						<div id="userName">{{username}}</div>
-					</h1>
-					<p>Tap a marker to view the note.</p>
+					<div id="welcomeText">
+						<h1>Welcome back, <br>
+							<div id="userName">{{username}}</div>
+						</h1>
+						<p>Tap a marker to view the note.</p>
+					</div>
 
-					<button type="button" class="collapsible btn btn-primary btn-block" data-toggle="collapse" data-target="#note-form">Add Note</button><br>
+					{{#unless viewAlt}}
+						<button type="button" class="collapsible btn btn-primary btn-block" data-toggle="collapse" data-target="#note-form">Add Note</button><br>
+					{{/unless}}
 
 					<div id="note-form" class="collapse">
 						<div class="form-group">
@@ -49,17 +53,32 @@
 
 			<div id="login">
 				{{#unless username}}
-					<form id="loginForm" role="form" method="get" action="/">
+					<form id="loginForm" role="form">
 						<div class="form-group">
 							<input name="name" id="name" type="text" class="form-control" placeholder="What's your Name?">
 						</div>
 						<div class="form-group">
-							<input id="loginBtn" type="submit" class="btn btn-primary" value="Enter MyOdyssey!">
+							<input id="loginBtn" type="submit" class="btn btn-primary" value="Enter MyOdyssey!" method="get" action="/">
 						</div>
 					</form>
 				{{/unless}}
 			</div>
-		</div>
+		</div> <!-- topbox end -->
+
+		{{#if viewAlt}}
+			<div id="altAdd">
+				<button type="button" class="addButton" data-target="#note-form">
+				<img class="img-responsive" src="/css/assets/location.png">
+				</button><br>
+			</div>
+			<script>
+				$('#submitNote').click(function() {
+					$('#note-form').hide();
+					$('#welcomeText').show();
+				});
+			</script>
+		{{/if}}
+
 	</div>
 </body>
 

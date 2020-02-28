@@ -8,7 +8,24 @@ exports.view = function(request, response){
 		name = "";
 	}
 	response.render('index', {
-		'locations':data,
-		'username': name
+		'locations': data,
+		'username': name,
+		'viewAlt': false
+	});
+};
+
+// A/B testing
+exports.viewAlt = function(request, response){
+	data.stringify = JSON.stringify(data);
+
+	var name = request.query.name;
+	if (name === undefined) {
+		name = "";
+	}
+	response.render('index', {
+		'locations': data,
+		'username': name,
+		'name': name,
+		'viewAlt': true
 	});
 };

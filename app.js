@@ -38,8 +38,12 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', index.view);
+app.get('/viewAlt', index.viewAlt);
+//app.get('/:userName', index.view);
+//app.get('/viewAlt/:userName', index.viewAlt);
 app.get('/settings', settings.view);
 app.get('/add/:userName', add.view);
+app.get('/viewAlt/add/:userName', add.viewAlt);
 app.get('/json', json.getInfo);
 app.post('/json', json.addJSON);
 // Example route
