@@ -29,16 +29,13 @@ function initializePage() {
   $('#altAdd').click(function() {
     $('#note-form').toggle();
     $('#welcomeText').toggle();
-    /*var noteform = "<div id='note-form'><div class='form-group'>"
-         + "<input id='address' type='text' class='form-control' placeholder='La Jolla Cove'>"
-         + "</div>"
-         + "<div class='form-group'>"
-         + "<input id='note' type='textbox' class='form-control' placeholder='Type a note here'>"
-         + "</div>"
-         + "<input id='submitNote' type='submit' class='btn btn-primary' value='Submit'>"
-         + "</div>";
+    ga('create', 'UA-159852180-1', 'auto');
+    ga('send', 'event', 'altAdd', 'click');
+  });
 
-    $('#welcome').append(noteform);*/
+  $('#add').click(function() {
+    ga('create', 'UA-159852180-1', 'auto');
+    ga('send', 'event', 'add', 'click');
   });
 }
 
