@@ -30,11 +30,13 @@ function initializePage() {
     $('#note-form').toggle();
     $('#welcomeText').toggle();
     ga('create', 'UA-159852180-1', 'auto');
+    ga('require', 'GTM-MBPFPSX');
     ga('send', 'event', 'altAdd', 'click');
   });
 
   $('#add').click(function() {
     ga('create', 'UA-159852180-1', 'auto');
+    ga('require', 'GTM-MBPFPSX');
     ga('send', 'event', 'add', 'click');
   });
 }
