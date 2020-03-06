@@ -92,7 +92,9 @@ function initMap() {
     disableDefaultUI: true
   });
 
+  //var addressInput = document.getElementById('address');
   var addressInput = document.getElementById('address');
+
   autocomplete = new google.maps.places.Autocomplete(addressInput);
   places = new google.maps.places.PlacesService(map);
   infowindow = new google.maps.InfoWindow;
