@@ -9,11 +9,8 @@ var path = require('path');
 var handlebars = require('express3-handlebars')
 
 var index = require('./routes/index');
-var settings = require('./routes/settings');
 var add = require('./routes/add');
 var json = require('./routes/json');
-// Example route
-// var user = require('./routes/user');
 
 var app = express();
 
@@ -38,16 +35,9 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', index.view);
-app.get('/viewAlt', index.viewAlt);
-//app.get('/:userName', index.view);
-//app.get('/viewAlt/:userName', index.viewAlt);
-app.get('/settings', settings.view);
 app.get('/add/:userName', add.view);
-app.get('/viewAlt/add/:userName', add.viewAlt);
 app.get('/json', json.getInfo);
 app.post('/json', json.addJSON);
-// Example route
-// app.get('/users', user.list);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

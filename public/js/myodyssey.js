@@ -1,6 +1,5 @@
 'use strict';
-// var data = {{{json locations.stringify}}}
-// console.log(data)
+
 var arrayData;
 var map;
 var autocomplete;
@@ -13,15 +12,9 @@ $(document).ready(function() {
   initializePage();
 })
 
-//wizard of oz login
-/*function populateName(){
-	var x = document.getElementByID('name').value;
-	document.getElementbyID('try') = x;
-}*/
-
-
 /*
  * Function that is called when the document is ready.
+ * Handles google analytics.
  */
 function initializePage() {
   console.log("Javascript connected!");
@@ -41,8 +34,10 @@ function initializePage() {
   });
 }
 
-/*PARSES THE JSON*/
-function testFunc(result) {
+/*
+ * Parses the JSON.
+ */
+function parseJson(result) {
   refResult = result;
   for (var i = 0; i < result.markers.length; i++) {
     //get the actual marker
@@ -62,25 +57,13 @@ function testFunc(result) {
     var noteContent = result.markers[i].noteContent
     var owner = result.markers[i].person
     var content = title.bold().big() + "<br>" + date.small() + "<br>" + noteContent + "<br>" + owner.italics();
-    /*marker['infowindow'] var infowindow = new google.maps.InfoWindow({
-      content: title.bold().big() + "<br>" + date.small() + "<br>" + noteContent + "<br>" + owner.italics()
-    });*/
-
-    // info window commands
-    /*google.maps.event.addListener(marker, 'click', function() {
-      this['infowindow'].open(map, this);
-    });
-    //unclick might be wrong
-    google.maps.event.addListener(marker, 'click', function() {
-      this['infowindow'].close();
-    });*/
 
     // new info window controls
     markerView(map, marker, infowindow, content, false);
   }
 }
 
-// Initialize the map, result now contains the json data
+// initialize the map, result now contains the json data
 function initMap() {
   var gliderport = {
     lat: 32.890128,
@@ -92,21 +75,16 @@ function initMap() {
     disableDefaultUI: true
   });
 
-  //var addressInput = document.getElementById('address');
   var addressInput = document.getElementById('address');
 
   autocomplete = new google.maps.places.Autocomplete(addressInput);
   places = new google.maps.places.PlacesService(map);
   infowindow = new google.maps.InfoWindow;
 
-  $.get('/json', testFunc);
+  $.get('/json', parseJson);
   var geocoder = new google.maps.Geocoder();
 
-  /*document.getElementById('submit').addEventListener('click', function() {
-    geocodeAddress(geocoder, map);
-  });*/
   $("#submitNote").click(function() {
-    //getAddress(autocomplete, map);
     geocodeAddress(geocoder, map);
   });
 }
@@ -121,7 +99,6 @@ function geocodeAddress(geocoder, resultsMap) {
       //pass in owner and note as well
       var owner = document.getElementById('name');
       var noteContent = document.getElementById('note');
-      //addMarker(results[0], owner, noteContent, resultsMap);
       addMarker(results[0], resultsMap);
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
@@ -141,15 +118,6 @@ function addMarker(location, map) {
   var user = document.getElementById('userName').innerHTML;
   var noteContent = $("#note").val();
   var content = location.formatted_address.bold().big() + "<br>" + date.toDateString().small() + "<br>" + noteContent + "<br>" + user.italics();
-  /*var infowindow = new google.maps.InfoWindow({
-    content: location.formatted_address.bold().big() + "<br>" + date.toDateString().small() + "<br>" + noteContent + "<br>" + user.italics(),
-  });*/
-
-  // infowindow commands
-  /*infowindow.open(map, marker);
-  marker.addListener('click', function() {
-    infowindow.open(map, marker);
-  });*/
 
   // new info window controls
   markerView(map, marker, infowindow, content, true);
